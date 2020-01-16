@@ -4,7 +4,8 @@
   "description": "Integrates npm versioning into git flow",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/dominoma/git-flow-npm/issues"
   },
-  "homepage": "https://github.com/dominoma/git-flow-npm#readme"
+  "homepage": "https://github.com/dominoma/git-flow-npm#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
 }
