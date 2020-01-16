@@ -1,0 +1,19 @@
+{
+  "name": "git-flow-npm",
+  "version": "1.0.0",
+  "description": "Integrates npm versioning into git flow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominoma/git-flow-npm.git"
+  },
+  "author": "Dominik Sander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dominoma/git-flow-npm/issues"
+  },
+  "homepage": "https://github.com/dominoma/git-flow-npm#readme"
+}
