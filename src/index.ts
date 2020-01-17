@@ -29,7 +29,15 @@ async function fetchPackageEnv() {
 function incrementVersion(version: string, pos: number) {
   return version
     .split('.')
-    .map((value, index) => (index === pos ? parseInt(value, 10) + 1 : value))
+    .map((value, index) => {
+      if (index < pos) {
+        return value
+      } else if (index > pos) {
+        return 0
+      } else {
+        return (parseInt(value, 10) + 1).toString()
+      }
+    })
     .join('.')
 }
 
