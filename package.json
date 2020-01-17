@@ -2,7 +2,9 @@
   "name": "git-flow-npm",
   "version": "1.0.0",
   "description": "Integrates npm versioning into git flow",
-  "main": "index.js",
+  "bin": {
+    "git-flow-npm": "./dist/main.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .ts,.js --ignore-path .gitignore .",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/dominoma/git-flow-npm#readme",
   "devDependencies": {
+    "@types/node": "^13.1.7",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "awesome-typescript-loader": "^5.2.1",
