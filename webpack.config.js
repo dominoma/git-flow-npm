@@ -1,8 +1,13 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.ts',
+  target: 'node',
   stats: 'errors-only',
+  optimization: {
+    minimize: true
+  },
   mode: 'none',
   module: {
     rules: [
@@ -17,10 +22,7 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    modules: [
-      path.resolve('node_modules'),
-      'node_modules'
-    ],
+    modules: [path.resolve('node_modules'), 'node_modules'],
     extensions: ['.ts', '.js', '.d.ts', '.json'],
     alias: {
       '~~': __dirname,
@@ -29,5 +31,7 @@ module.exports = {
       '@': __dirname
     }
   },
-  plugins: []
+  plugins: [
+    new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true })
+  ]
 }
