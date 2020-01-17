@@ -47,12 +47,14 @@ async function deploy() {
 async function releaseStart(currentVersion: string) {
   const version = currentVersion
   const nextMinor = incrementVersion(version, 1)
-  const { stdout } = await exec(`git flow release start ${nextMinor}`)
-  console.log(stdout)
+  console.log(`Creating branch for release ${nextMinor}`)
+  await exec(`git flow release start ${nextMinor}`)
   await exec('npm version minor')
+  console.log(`You are now on branch release/${nextMinor}`)
 }
 async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
-  const message = await fetchInput('Release tag message:')
+  const message = await fetchInput('Release tag message: ')
+  console.log('Pushing release to remote...')
   await exec(
     `git flow release finish ${releaseVersion || ''} -p -m ${JSON.stringify(
       message
@@ -65,16 +67,18 @@ async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
 }
 
 async function hotfixStart(name: string) {
-  const { stdout } = await exec(`git flow hotfix start ${name}`)
-  console.log(stdout)
-  await exec('npm run version patch')
+  console.log(`Creating hotfix branch...`)
+  await exec(`git flow hotfix start ${name}`)
+  const { stdout } = await exec('npm run version patch')
+  console.log(`Created hotfix branch with version ${stdout}`)
 }
 async function hotfixFinish(
   currentVersion: string,
   doDeploy: boolean,
   name?: string
 ) {
-  const message = await fetchInput('Hotfix tag message:')
+  const message = await fetchInput('Hotfix tag message: ')
+  console.log('Pushing hotfix to remote...')
   await exec(
     `git flow hotfix finish ${name ||
       ''} -p --tagname ${currentVersion} -m ${JSON.stringify(message)}`
