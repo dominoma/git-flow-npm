@@ -22,7 +22,6 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    modules: [path.resolve('node_modules'), 'node_modules'],
     extensions: ['.ts', '.js', '.d.ts', '.json'],
     alias: {
       '~~': __dirname,
