@@ -1,8 +1,22 @@
 import util from 'util'
 import { exec as execNoPromise } from 'child_process'
-//comment
+import readline from 'readline'
+
+const rlInterface = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
 
 const exec = util.promisify(execNoPromise)
+
+function fetchInput(question: string) {
+  return new Promise<string>((resolve) => {
+    rlInterface.question(question, (answer) => {
+      rlInterface.close()
+      resolve(answer)
+    })
+  })
+}
 
 async function fetchPackageEnv() {
   const { stdout } = await exec('npm run env')
@@ -38,7 +52,12 @@ async function releaseStart(currentVersion: string) {
   await exec('npm version minor')
 }
 async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
-  await exec(`git flow release finish ${releaseVersion || ''} -p`)
+  const message = await fetchInput('Release tag message:')
+  await exec(
+    `git flow release finish ${releaseVersion || ''} -p -m ${JSON.stringify(
+      message
+    )}`
+  )
   console.log('Pushed release to remote')
   if (doDeploy) {
     await deploy()
@@ -55,8 +74,10 @@ async function hotfixFinish(
   doDeploy: boolean,
   name?: string
 ) {
+  const message = await fetchInput('Hotfix tag message:')
   await exec(
-    `git flow hotfix finish ${name || ''} -p --tagname ${currentVersion}`
+    `git flow hotfix finish ${name ||
+      ''} -p --tagname ${currentVersion} -m ${JSON.stringify(message)}`
   )
   console.log('Pushed hotfix to remote')
   if (doDeploy) {
