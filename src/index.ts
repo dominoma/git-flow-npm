@@ -21,27 +21,32 @@ function incrementVersion(version: string, pos: number) {
 async function deploy() {
   await exec('git checkout master')
   try {
+    console.log('Running deploy script on master branch...')
     await exec('npm run deploy')
   } finally {
     await exec('git checkout develop')
+    console.log('You are now on the develop branch')
   }
 }
 
 async function releaseStart(currentVersion: string) {
   const version = currentVersion
   const nextMinor = incrementVersion(version, 1)
-  await exec(`git flow release start ${nextMinor}`)
+  const { stdout } = await exec(`git flow release start ${nextMinor}`)
+  console.log(stdout)
   await exec('npm version minor')
 }
 async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
   await exec(`git flow release finish ${releaseVersion || ''} -p`)
+  console.log('Pushed release to remote')
   if (doDeploy) {
     await deploy()
   }
 }
 
 async function hotfixStart(name: string) {
-  await exec(`git flow hotfix start ${name}`)
+  const { stdout } = await exec(`git flow hotfix start ${name}`)
+  console.log(stdout)
   await exec('npm run version patch')
 }
 async function hotfixFinish(
@@ -52,6 +57,7 @@ async function hotfixFinish(
   await exec(
     `git flow hotfix finish ${name || ''} -p --tagname ${currentVersion}`
   )
+  console.log('Pushed hotfix to remote')
   if (doDeploy) {
     await deploy()
   }
