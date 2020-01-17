@@ -1,10 +1,11 @@
 {
   "name": "git-flow-npm",
-  "version": "1.6.0",
+  "version": "1.7.1",
   "description": "Integrates npm versioning into git flow",
   "bin": {
-    "git-flow-npm": "./dist/main.js"
+    "git-flow-npm": "dist/main.js"
   },
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .ts,.js --ignore-path .gitignore .",
