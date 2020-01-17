@@ -30,46 +30,30 @@ async function deploy() {
 async function releaseStart(currentVersion: string) {
   const version = currentVersion
   const nextMinor = incrementVersion(version, 1)
-  try {
-    await exec(`git flow release start ${nextMinor}`)
-    await exec('npm run version minor')
-  } catch (e) {
-    if (e instanceof Error) console.error(e.message)
-  }
+  await exec(`git flow release start ${nextMinor}`)
+  await exec('npm version minor')
 }
 async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
-  try {
-    await exec(`git flow release finish ${releaseVersion || ''} -p`)
-    if (doDeploy) {
-      await deploy()
-    }
-  } catch (e) {
-    if (e instanceof Error) console.error(e.message)
+  await exec(`git flow release finish ${releaseVersion || ''} -p`)
+  if (doDeploy) {
+    await deploy()
   }
 }
 
 async function hotfixStart(name: string) {
-  try {
-    await exec(`git flow hotfix start ${name}`)
-    await exec('npm run version patch')
-  } catch (e) {
-    if (e instanceof Error) console.error(e.message)
-  }
+  await exec(`git flow hotfix start ${name}`)
+  await exec('npm run version patch')
 }
 async function hotfixFinish(
   currentVersion: string,
   doDeploy: boolean,
   name?: string
 ) {
-  try {
-    await exec(
-      `git flow hotfix finish ${name || ''} -p --tagname ${currentVersion}`
-    )
-    if (doDeploy) {
-      await deploy()
-    }
-  } catch (e) {
-    if (e instanceof Error) console.error(e.message)
+  await exec(
+    `git flow hotfix finish ${name || ''} -p --tagname ${currentVersion}`
+  )
+  if (doDeploy) {
+    await deploy()
   }
 }
 
@@ -95,11 +79,9 @@ async function cli(argv: string[]) {
       )
     }
   } else if (params[0] !== '') {
-    try {
-      await exec(`git flow ${params.join(' ')}`)
-    } catch (e) {
-      if (e instanceof Error) console.log(e.message)
-    }
+    await exec(`git flow ${params.join(' ')}`)
   }
 }
-cli(process.argv)
+cli(process.argv).catch((e) => {
+  if (e instanceof Error) console.log(e.message)
+})
