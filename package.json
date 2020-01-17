@@ -1,6 +1,6 @@
 {
   "name": "git-flow-npm",
-  "version": "1.7.1",
+  "version": "1.7.0",
   "description": "Integrates npm versioning into git flow",
   "bin": {
     "git-flow-npm": "dist/main.js"
