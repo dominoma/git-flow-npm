@@ -77,7 +77,7 @@ async function releaseFinish(doDeploy: boolean, releaseVersion?: string) {
 async function hotfixStart(name: string) {
   console.log(`Creating hotfix branch...`)
   await exec(`git flow hotfix start ${name}`)
-  const { stdout } = await exec('npm run version patch')
+  const { stdout } = await exec('npm version patch')
   console.log(`Created hotfix branch with version ${stdout}`)
 }
 async function hotfixFinish(
